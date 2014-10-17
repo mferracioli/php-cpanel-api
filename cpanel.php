@@ -36,11 +36,13 @@ class CPanel {
     }
 
     public function __call($method, $args) {
-        $params = "";
+        $params = array();
 
         foreach ($args[1] as $key => $value) {
-            $params .= urlencode($key) . "=" . urlencode($value);
+            $params[] = urlencode($key) . "=" . urlencode($value);
         }
+
+        $params = implode("&" , $params);
 
         $query = $this->_baseurl . "/json-api/cpanel?cpanel_jsonapi_module=". $args[0] ."&cpanel_jsonapi_func=$method&cpanel_jsonapi_version=2&" . $params;
 
